@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>Resume Analyzer</title></head>
+<body>
+  <h2>Upload Resume & Paste Job Description</h2>
+  <form action="/" method="post" enctype="multipart/form-data">
+      <label>Upload Resume (PDF or DOCX):</label><br>
+      <input type="file" name="resume" required><br><br>
+
+      <label>Paste Job Description:</label><br>
+      <textarea name="jobdesc_text" rows="10" cols="60" placeholder="Paste job description here..." required></textarea><br><br>
+
+      <input type="submit" value="Analyze">
+  </form>
+</body>
+</html>

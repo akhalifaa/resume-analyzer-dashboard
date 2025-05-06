@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Match Results</title>
+    <style>
+        body { font-family: Arial; padding: 2rem; }
+        .box { border: 1px solid #ccc; padding: 1rem; border-radius: 8px; }
+        h2 { color: #2b6cb0; }
+        ul { line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Match Score: {{ match_percentage }}%</h2>
+        <p><strong>Matched Keywords:</strong></p>
+        <ul>
+            {% for word in matched_keywords %}
+                <li>{{ word }}</li>
+            {% endfor %}
+        </ul>
+        <br>
+        <a href="/">← Try Another</a>
+    </div>
+</body>
+</html>

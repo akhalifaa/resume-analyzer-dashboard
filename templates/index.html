@@ -1,16 +1,82 @@
 <!DOCTYPE html>
-<html>
-<head><title>Resume Analyzer</title></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Analyzer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            padding: 3rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 2rem 3rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 1rem;
+            display: block;
+        }
+
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
 <body>
-  <h2>Upload Resume & Paste Job Description</h2>
-  <form action="/" method="post" enctype="multipart/form-data">
-      <label>Upload Resume (PDF or DOCX):</label><br>
-      <input type="file" name="resume" required><br><br>
+    <div class="container">
+        <h2>Resume Analyzer</h2>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <label for="resume">Upload Resume (PDF or DOCX):</label>
+            <input type="file" name="resume" required>
 
-      <label>Paste Job Description:</label><br>
-      <textarea name="jobdesc_text" rows="10" cols="60" placeholder="Paste job description here..." required></textarea><br><br>
+            <label for="jobdesc_text">Paste Job Description:</label>
+            <textarea name="jobdesc_text" placeholder="Paste the job description here..." required></textarea>
 
-      <input type="submit" value="Analyze">
-  </form>
+            <input type="submit" value="Analyze Resume">
+        </form>
+    </div>
 </body>
 </html>

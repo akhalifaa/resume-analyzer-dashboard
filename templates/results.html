@@ -18,6 +18,13 @@
                 <li>{{ word }}</li>
             {% endfor %}
         </ul>
+
+        <p><strong>Suggested Additions:</strong></p>
+        <ul>
+            {%  for word in missing_keywords %}
+                <li>{{ word }}</li>
+            {% endfor %}
+        </ul>
         <br>
         <a href="/">← Try Another</a>
     </div>

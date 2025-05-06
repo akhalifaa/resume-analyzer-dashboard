@@ -52,16 +52,17 @@ def index():
 
         # Matching keywords
         matched = set(resume_keywords) & set(jobdesc_keywords)
+        missing = set(jobdesc_keywords) - set(resume_keywords)
         match_percentage = round(len(matched) / len(set(jobdesc_keywords)) * 100, 2) if jobdesc_keywords else 0
 
         print("Matched Keywords:", matched)
         print("Match Percentage:", match_percentage)
 
-        return render_template('results.html', match_percentage=match_percentage, matched_keywords=matched)
+        return render_template('results.html', match_percentage=match_percentage, matched_keywords=matched, missing_keywords=missing)
 
 
     return render_template('index.html')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)

@@ -2,11 +2,28 @@ from flask import Flask, render_template, request
 import os
 from pdfminer.high_level import extract_text
 import docx
+import spacy
+from collections import Counter
+import string
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+nlp = spacy.load("en_core_web_sm")
+
+def extract_keywords(text):
+    doc = nlp(text.lower())
+    # Keep nouns and proper nouns, filter punctuation and stop words
+    keywords = [
+        token.lemma_ for token in doc
+        if token.pos_ in ['NOUN', 'PROPN'] and
+           token.text not in string.punctuation and
+           not token.is_stop
+    ]
+    return Counter(keywords)
 
 
 def extract_resume_text(file_path):
@@ -26,18 +43,23 @@ def index():
         resume_path = os.path.join(app.config['UPLOAD_FOLDER'], resume.filename)
         resume.save(resume_path)
 
-        # Extract text from uploaded resume
         resume_text = extract_resume_text(resume_path)
-
-        # Get job description from textarea
         jobdesc_text = request.form['jobdesc_text']
 
-        # For now, just print them (truncate long text)
-        print("RESUME TEXT (first 300 chars):", resume_text[:300])
-        print("JOB DESC TEXT (first 300 chars):", jobdesc_text[:300])
+        # Keyword extraction
+        resume_keywords = extract_keywords(resume_text)
+        jobdesc_keywords = extract_keywords(jobdesc_text)
 
-        return "Resume and job description received and parsed!"
-    
+        # Matching keywords
+        matched = set(resume_keywords) & set(jobdesc_keywords)
+        match_percentage = round(len(matched) / len(set(jobdesc_keywords)) * 100, 2) if jobdesc_keywords else 0
+
+        print("Matched Keywords:", matched)
+        print("Match Percentage:", match_percentage)
+
+        return render_template('results.html', match_percentage=match_percentage, matched_keywords=matched)
+
+
     return render_template('index.html')
 
 

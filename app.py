@@ -5,8 +5,24 @@ import docx
 import spacy
 from collections import Counter
 import string
+from flask import Flask, render_template, request, redirect, url_for
+from flask_login import LoginManager, login_required, current_user
+from auth import auth, User
 
+# flask app for login management
 app = Flask(__name__)
+app.secret_key = 'super-secret-key'  # Required for sessions
+app.register_blueprint(auth)
+
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User(user_id)
+
+
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -37,6 +53,7 @@ def extract_resume_text(file_path):
 
 
 @app.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
     if request.method == 'POST':
         resume = request.files['resume']
